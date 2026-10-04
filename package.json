@@ -1,6 +1,6 @@
 {
   "name": "censor-quick",
-  "description": "A small desktop tool for pixelating private image details",
+  "description": "A small desktop tool for blurring selected image areas",
   "private": true,
   "version": "0.1.0",
   "type": "module",

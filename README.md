@@ -1,19 +1,17 @@
 ﻿# censor-quick
 
-A small Tauri desktop tool for removing private details from screenshots before sharing them.
+A small Tauri desktop tool for blurring selected areas of screenshots.
 
 ## Use
 
-- Press Ctrl+V to paste an image, or choose Open image.
-- Drag a rectangle over anything you want to remove.
-- Adjust Pixel size before selecting an area.
-- Press Ctrl+C or choose Copy image to copy the edited image.
+- Press Ctrl+V to paste an image, drag an image into the window, or select "open image".
+- Drag over an area to blur it.
+- Press Ctrl+C to copy the edited image to the clipboard.
+- Press Ctrl+O to open another image.
 
-## Pixelation
+The blur samples a palette from the selected area, maps the randomized pixels to nearby colors from that palette, shuffles pixels inside progressively smaller blocks, shuffles the result once more, then applies a Gaussian blur and feathered overlay. Processing happens locally. The app does not upload or save the image.
 
-Censor Quick replaces every pixel in the selected rectangle with fresh random color blocks. The replacement pixels are generated independently from the source image, so the copied image contains no original pixel data from that area for a deblurring algorithm to reverse. A model could still guess details from surrounding context or another copy. The app does not keep an undo copy.
-
-Image processing happens locally. Censor Quick does not upload or save the image. It cannot remove other copies of the original image, clipboard history, or guarantee that operating system memory is securely erased when the app closes.
+This is a visual blur, not guaranteed irreversible redaction. A blur may reveal details under some conditions, so use a solid opaque cover when information must be removed with certainty. The app does not keep an undo copy or erase other copies of the original image, clipboard history, or operating system memory.
 
 ## Run on Windows
 
