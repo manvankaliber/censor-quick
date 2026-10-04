@@ -3,6 +3,7 @@ import {
   readImage,
   writeImage,
 } from "@tauri-apps/plugin-clipboard-manager";
+import { getCurrentWindow, LogicalSize } from "@tauri-apps/api/window";
 
 type StatusTone = "ready" | "working" | "success" | "error";
 type Point = { x: number; y: number };
@@ -31,6 +32,13 @@ const selectionFrame = getElement<HTMLElement>("#selection-frame");
 const fileInput = getElement<HTMLInputElement>("#image-file");
 const openLink = getElement<HTMLAnchorElement>("#open-image");
 const statusText = getElement<HTMLElement>("#status-text");
+const appWindow = getCurrentWindow();
+const dragRegion = getElement<HTMLElement>("#titlebar-drag-region");
+const minimizeButton = getElement<HTMLButtonElement>("#minimize-window");
+const maximizeButton = getElement<HTMLButtonElement>("#maximize-window");
+const closeButton = getElement<HTMLButtonElement>("#close-window");
+const maximizeIcon = getElement<SVGSVGElement>(".maximize-icon");
+const restoreIcon = getElement<SVGSVGElement>(".restore-icon");
 
 const maxPixels = 30_000_000;
 let hasImage = false;
@@ -47,6 +55,26 @@ function setImageReady() {
   emptyState.hidden = true;
   canvasWrap.hidden = false;
   stage.dataset.hasImage = "true";
+  void resizeWindowToImage();
+}
+
+async function resizeWindowToImage() {
+  try {
+    await appWindow.setSize(new LogicalSize(canvas.width, canvas.height));
+    await appWindow.center();
+    await updateMaximizeButton();
+  } catch {
+    announce("Image opened, but the window could not be resized.", "error");
+  }
+}
+
+async function updateMaximizeButton() {
+  const maximized = await appWindow.isMaximized();
+  maximizeButton.dataset.maximized = String(maximized);
+  maximizeButton.setAttribute("aria-label", maximized ? "Restore" : "Maximize");
+  maximizeButton.title = maximized ? "Restore" : "Maximize";
+  maximizeIcon.toggleAttribute("hidden", maximized);
+  restoreIcon.toggleAttribute("hidden", !maximized);
 }
 
 function checkImageSize(width: number, height: number) {
@@ -318,13 +346,6 @@ function shuffleBlocks(
   }
 }
 
-function shuffleAllPixels(pixels: Uint8ClampedArray, randomIndex: (max: number) => number) {
-  const count = pixels.length / 4;
-  for (let last = count - 1; last > 0; last -= 1) {
-    swapPixels(pixels, last, randomIndex(last + 1));
-  }
-}
-
 function paddedPixels(
   source: Uint8ClampedArray,
   sourceWidth: number,
@@ -376,7 +397,7 @@ function blurAndFeather(
   outputContext.filter = "none";
 
   const image = outputContext.getImageData(0, 0, output.width, output.height);
-  const feather = Math.max(3, Math.round(radius * 1.5));
+  const feather = Math.max(4, Math.round(radius * 4));
 
   for (let y = 0; y < output.height; y += 1) {
     for (let x = 0; x < output.width; x += 1) {
@@ -415,12 +436,12 @@ function replaceWithBlur(start: Point, end: Point) {
 
   const randomIndex = createRandomIndex();
   const smallestSide = Math.min(padded.width, padded.height);
-  const firstBlock = 2 ** Math.floor(Math.log2(Math.min(128, Math.max(2, smallestSide))));
+  const firstBlock = 2 ** Math.floor(Math.log2(Math.min(32, Math.max(2, smallestSide))));
 
   for (let block = firstBlock; block >= 2; block = Math.floor(block / 2)) {
     shuffleBlocks(padded.pixels, padded.width, padded.height, block, randomIndex);
   }
-  shuffleAllPixels(padded.pixels, randomIndex);
+  shuffleBlocks(padded.pixels, padded.width, padded.height, 8, randomIndex);
 
   const blurred = blurAndFeather(
     padded.pixels,
@@ -484,6 +505,22 @@ openLink.addEventListener("click", (event) => {
   event.preventDefault();
   openImage();
 });
+
+dragRegion.addEventListener("pointerdown", (event) => {
+  if (event.button === 0) void appWindow.startDragging();
+});
+dragRegion.addEventListener("dblclick", async () => {
+  await appWindow.toggleMaximize();
+  await updateMaximizeButton();
+});
+
+minimizeButton.addEventListener("click", () => void appWindow.minimize());
+maximizeButton.addEventListener("click", async () => {
+  await appWindow.toggleMaximize();
+  await updateMaximizeButton();
+});
+closeButton.addEventListener("click", () => void appWindow.close());
+void updateMaximizeButton();
 
 fileInput.addEventListener("change", () => {
   const file = fileInput.files?.[0];

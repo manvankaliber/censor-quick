@@ -14,11 +14,11 @@
     "windows": [
       {
         "title": "Censor Quick",
-        "width": 1120,
-        "height": 760,
-        "minWidth": 680,
-        "minHeight": 550,
-        "decorations": true,
+        "width": 480,
+        "height": 104,
+        "center": true,
+        "decorations": false,
+        "shadow": true,
         "transparent": false
       }
     ],

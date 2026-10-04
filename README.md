@@ -2,6 +2,8 @@
 
 A small Tauri desktop tool for blurring selected areas of screenshots.
 
+The borderless white window has custom minimize, maximize, and close controls. When an image opens, the window resizes to the image's pixel dimensions.
+
 ## Use
 
 - Press Ctrl+V to paste an image, drag an image into the window, or select "open image".
@@ -9,7 +11,7 @@ A small Tauri desktop tool for blurring selected areas of screenshots.
 - Press Ctrl+C to copy the edited image to the clipboard.
 - Press Ctrl+O to open another image.
 
-The blur samples a palette from the selected area, maps the randomized pixels to nearby colors from that palette, shuffles pixels inside progressively smaller blocks, shuffles the result once more, then applies a Gaussian blur and feathered overlay. Processing happens locally. The app does not upload or save the image.
+The blur samples a palette from the selected area, maps pixels to nearby colors from that palette, and shuffles pixels inside progressively smaller local blocks. A final shuffle stays local to small blocks. It then applies a Gaussian blur and a wide feather that fades both outside and into the selection. Processing happens locally. The app does not upload or save the image.
 
 This is a visual blur, not guaranteed irreversible redaction. A blur may reveal details under some conditions, so use a solid opaque cover when information must be removed with certainty. The app does not keep an undo copy or erase other copies of the original image, clipboard history, or operating system memory.
 
