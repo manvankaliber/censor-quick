@@ -31,3 +31,7 @@ To create a desktop build:
 - Ctrl+V: paste an image
 - Ctrl+C: copy the edited image
 - Ctrl+O: open an image
+
+## Product website
+
+The SvelteKit website lives in `website/` and deploys from that directory on Vercel. Its product preview, feature walkthrough, and free Windows download are at [censor-quick.vercel.app](https://censor-quick.vercel.app).

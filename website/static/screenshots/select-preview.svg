@@ -1,0 +1,42 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="590" viewBox="0 0 1000 590" fill="none">
+  <defs>
+    <linearGradient id="wall" x1="60" y1="20" x2="918" y2="580" gradientUnits="userSpaceOnUse"><stop stop-color="#edf2f3"/><stop offset=".55" stop-color="#d9e2df"/><stop offset="1" stop-color="#c0cecb"/></linearGradient>
+    <linearGradient id="hill1" x1="152" y1="287" x2="546" y2="516" gradientUnits="userSpaceOnUse"><stop stop-color="#b2c3a0"/><stop offset="1" stop-color="#637e71"/></linearGradient>
+    <linearGradient id="hill2" x1="516" y1="263" x2="931" y2="521" gradientUnits="userSpaceOnUse"><stop stop-color="#9fb7af"/><stop offset="1" stop-color="#496a68"/></linearGradient>
+    <linearGradient id="ridge" x1="377" y1="320" x2="605" y2="536" gradientUnits="userSpaceOnUse"><stop stop-color="#d8d6c3"/><stop offset="1" stop-color="#8da59a"/></linearGradient>
+    <linearGradient id="faded" x1="435" y1="334" x2="596" y2="430" gradientUnits="userSpaceOnUse"><stop stop-color="#496a68" stop-opacity="0"/><stop offset=".13" stop-color="#819892"/><stop offset=".48" stop-color="#d7d1bc"/><stop offset=".88" stop-color="#90a89e"/><stop offset="1" stop-color="#496a68" stop-opacity="0"/></linearGradient>
+    <filter id="blur" x="426" y="325" width="181" height="120" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="11"/></filter>
+    <mask id="feather" x="436" y="337" width="160" height="94" maskUnits="userSpaceOnUse" style="mask-type:alpha"><rect x="436" y="337" width="160" height="94" rx="5" fill="url(#faded)"/></mask>
+    <clipPath id="page"><rect width="1000" height="590" rx="4"/></clipPath>
+    <filter id="drop" x="7" y="7" width="986" height="584" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="6"/><feOffset dy="4"/><feComponentTransfer><feFuncA type="linear" slope=".12"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <g id="scene">
+      <rect width="1000" height="590" fill="url(#wall)"/>
+      <circle cx="205" cy="118" r="58" fill="#f6f1dd" opacity=".9"/>
+      <path d="M0 329 113 246l116 74 116-132 128 131 119-78 103 95 114-143 191 144v253H0V329Z" fill="#8eaaa4" opacity=".75"/>
+      <path d="m119 343 170-173 136 132 71-61 170 177v172H66V436l53-93Z" fill="url(#ridge)"/>
+      <path d="m0 405 171-99 118 74 116-48 139 110 144-152 127 81 185-100v319H0V405Z" fill="url(#hill1)"/>
+      <path d="m0 458 194-64 110 51 143-97 137 61 103-66 134 67 179-88v268H0V458Z" fill="url(#hill2)"/>
+      <path d="M0 526c108-41 201-27 286-1 85 27 186 18 262-13 85-34 164-29 225 0 78 38 147 26 227-9v87H0v-64Z" fill="#405e5c" opacity=".76"/>
+      <path d="m230 311 60-141 49 49-45 35 82-11 32 34-101-9-77 43Z" fill="#eef0e5" opacity=".8"/>
+      <path d="m450 293 31-82 30 36 31-17 48 41-70-20-38 41-32 1Z" fill="#f2efe0" opacity=".75"/>
+      <path d="M0 0h1000v43H0z" fill="#fff" fill-opacity=".16"/>
+      <rect x="14" y="14" width="972" height="562" rx="4" stroke="#fff" stroke-opacity=".42" stroke-width="2"/>
+    </g>
+  </defs>
+  <g clip-path="url(#page)" filter="url(#drop)">
+    <use href="#scene"/>
+    <g filter="url(#blur)" mask="url(#feather)"><use href="#scene"/></g>
+    <rect x="477" y="355" width="72" height="55" rx="5" stroke="#fff" stroke-opacity=".83" stroke-width="1.5" stroke-dasharray="5 5"/>
+    <path d="M551 360h45" stroke="#fff" stroke-opacity=".78" stroke-width="1.5"/>
+    <circle cx="600" cy="360" r="3" fill="#fff"/>
+    <rect width="1000" height="590" fill="#fff" fill-opacity=".07"/>
+    <g>
+      <rect x="882" y="0" width="39" height="33" fill="#fff" fill-opacity=".72"/>
+      <path d="M896 16.5h11" stroke="#30424f" stroke-width="1.1"/>
+      <rect x="921" width="39" height="33" fill="#fff" fill-opacity=".72"/>
+      <rect x="934" y="11" width="12" height="11" rx=".5" stroke="#30424f" stroke-width="1.1"/>
+      <rect x="960" width="40" height="33" fill="#fff" fill-opacity=".72"/>
+      <path d="m974 12 12 11m0-11-12 11" stroke="#30424f" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
